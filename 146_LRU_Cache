@@ -1,0 +1,88 @@
+class LRUCache {
+    class Node {
+        int key;
+        int value;
+        Node prev;
+        Node next;
+
+        Node(int key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+    }
+
+    private int capacity;
+    private HashMap<Integer, Node> hm;
+    private Node head;
+    private Node tail;
+
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        hm = new HashMap<>();
+        head = new Node(0, 0);
+        tail = new Node(0, 0);
+        head.next = tail;
+        tail.prev = head;
+    }
+
+    public int get(int key)
+    {
+        if(hm.containsKey(key))
+        {
+            Node address=hm.get(key);
+            //int temp=address.value;
+            remove(address);
+            insert(address);
+            return address.value;
+        }
+        else return -1;
+    }
+
+    public void put(int key, int value) {
+        Node address=hm.get(key);
+        if(hm.containsKey(key))remove(address);
+        if(hm.size()==capacity)
+            remove(tail.prev);
+
+        address=new Node(key,value);
+        insert(address);
+    }
+
+    private void insert(Node t) {
+        hm.put(t.key,t);
+        Node temp=head.next;
+        t.next=temp;
+        t.prev=head;
+        head.next=t;
+        temp.prev=t;
+        
+    }
+
+
+    private void remove(Node t) {
+        hm.remove(t.key);
+        Node temp=t.prev;
+        Node temp2=t.next;
+        temp.next=temp2;
+        temp2.prev=temp;
+
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        int capacity, key, value;
+        LRUCache obj = new LRUCache(2);
+        obj.put(1, 1);
+        obj.put(2, 2);
+        System.out.println(obj.get(1));
+        obj.put(3, 3);
+        System.out.println(obj.get(2));
+        obj.put(4, 4);
+        System.out.println(obj.get(1));
+        System.out.println(obj.get(3));
+        System.out.println(obj.get(4));
+
+    }
+
+}
