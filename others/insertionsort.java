@@ -6,15 +6,15 @@ public class Main {
         for (int i = 0; i < a.length; i++)
             System.out.print(a[i] + " ");
         System.out.println();
-        insertionsort(a, a.length);
+        insertionsort(a);
         for (int i = 0; i < a.length; i++)
             System.out.print(a[i] + " ");
 
     }
 
-    public static void insertionsort(int[] a, int n) {
+    public static void insertionsort(int[] a) {
 
-        for (int i = 1; i < n; i++) {
+        for (int i = 1; i < a.length; i++) {
             for (int j = i; j >0; j--) {
                 if(a[j]<a[j-1])//swap
                 {
